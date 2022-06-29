@@ -19,17 +19,17 @@
         -->
         <div id="header" th:if="${session.loginEmail}">
             <div th:if="${session.loginEmail.toString().equals('admin')}">
-                <a href="/member/admin" class="nav-link px-2 link-dark"><b>관리자모드</b></a>
+                <a href="/member/admin" class="nav-link px-2 link-dark"><b>관리자페이지</b></a>
             </div>
             <div th:if="${!session.loginEmail.toString().equals('admin')}">
-                <a href="/member/myPage" class="nav-link px-2 link-dark"><b>마이페이지</b></a>
+                <a href="/member/main" class="nav-link px-2 link-dark"><b>마이페이지</b></a>
             </div>
             <div>
                 <a href="/member/logout" class="nav-link px-2 link-dark"><b>로그아웃</b></a>
             </div>
         </div>
         <div th:unless="${session.loginEmail}">
-            <a href="/member/login" class="nav-link px-xxl-4 link-dark"><b>로그인</b></a>
+            <a href="/member/login-form" class="nav-link px-xxl-4 link-dark"><b>로그인</b></a>
         </div>
 </th:block>
 </html>

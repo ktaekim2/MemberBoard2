@@ -4,6 +4,7 @@ import com.its.memberboard.dto.MemberDTO;
 import com.its.memberboard.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -54,4 +56,27 @@ public class MemberController {
         System.out.println("MemberController.logout");
         return "index";
     }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "/memberPages/admin";
+    }
+
+    @GetMapping("/")
+    public String findAll(Model model) {
+        List<MemberDTO> memberDTOList = memberService.findAll();
+        model.addAttribute("memberList", memberDTOList);
+        return "memberPages/list";
+    }
+
+    @GetMapping("/main")
+    public String main() {
+        return "/memberPages/main";
+    }
+
+    @GetMapping("/update")
+    public String update() {
+        return "/memberPages/update";
+    }
+
 }
