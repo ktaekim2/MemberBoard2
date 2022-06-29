@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -35,6 +35,18 @@ public class MemberBoardTest {
     public void adminSave() {
         MemberDTO memberDTO = new MemberDTO("admin", "1234");
         memberRepository.save(MemberEntity.toEntity(memberDTO));
+    }
+
+    @Test
+    @DisplayName("회원 저장")
+    public void memberSave() {
+        IntStream.rangeClosed(1, 20).forEach(i -> {
+            try {
+                memberService.save(newMember(i));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     // 파일첨부 부분 주석처리 필요
@@ -65,4 +77,15 @@ public class MemberBoardTest {
         MemberDTO loginResult = memberService.login(loginMemberDTO);
         assertThat(loginResult).isNotNull();
     }
+
+    @Test
+    @DisplayName("회원 삭제 테스트")
+    @Transactional
+    @Rollback(value = true)
+    public void deleteTest() throws IOException {
+        Long saveId = memberService.save(newMember(999));
+        memberService.deleteById(saveId);
+        assertThat(memberService.findById(saveId)).isNull();
+    }
+
 }

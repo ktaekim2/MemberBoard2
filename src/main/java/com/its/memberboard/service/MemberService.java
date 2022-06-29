@@ -27,6 +27,7 @@ public class MemberService {
         if (!memberProfile.isEmpty())
             memberProfile.transferTo(new File(savePath));
         memberDTO.setMemberProfileName(memberProfileName);
+
         Long saveId = memberRepository.save(MemberEntity.toEntity(memberDTO)).getId();
         return saveId;
     }
@@ -62,5 +63,9 @@ public class MemberService {
         } else {
             return null;
         }
+    }
+
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
     }
 }
