@@ -16,13 +16,15 @@
 <th:block th:replace="commonPages/header :: header"></th:block>
 <h2>save.html</h2>
 <form action="/member/save" method="post" enctype="multipart/form-data">
-    memberEmail<input type="text" name="memberEmail" placeholder="memberEmail" id="memberEmail"
+    memberEmail<input type="text" name="memberEmail" id="memberEmail"
                       onblur="duplicateCheck()">
     <p id="checkResult"></p>
-    memberPassword<input type="text" name="memberPassword" placeholder="memberPassword">
-    memberName<input type="text" name="memberName" placeholder="memberName">
-    memberMobile<input type="text" name="memberMobile" placeholder="memberMobile">
-    memberProfile<input type="file" name="memberProfile" placeholder="memberProfile">
+    memberPassword<input type="text" name="memberPassword" id="memberPassword" onblur="expCheck(this.name)">
+    <p id="passwordCheckResult"></p>
+    memberName<input type="text" name="memberName">
+    memberMobile<input type="text" name="memberMobile" id="memberMobile" onblur="expCheck(this.name)">
+    <p id="mobileCheckResult"></p>
+    memberProfile<input type="file" name="memberProfile">
     <input type="submit">
 </form>
 </body>
@@ -44,6 +46,36 @@
                 checkResult.style.color = "red";
             }
         })
+    }
+
+    const expCheck = (name) => {
+        console.log(name);
+        if (name == "memberPassword") {
+            const memberPassword = document.getElementById("memberPassword").value;
+            const passwordCheckResult = document.getElementById("passwordCheckResult");
+            const exp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,16}$/;
+            if (memberPassword == 0) {
+                passwordCheckResult.innerHTML = "필수입력입니다.";
+                passwordCheckResult.style.color = "red";
+            } else if (memberPassword.match(exp)) {
+                passwordCheckResult.innerHTML = "올바른 비밀번호 형식";
+                passwordCheckResult.style.color = "green";
+            } else {
+                passwordCheckResult.innerHTML = "영문대소문자 8~16";
+                passwordCheckResult.style.color = "red";
+            }
+        } else {
+            const memberMobile = document.getElementById("memberMobile").value;
+            const mobileCheckResult = document.getElementById("mobileCheckResult");
+            const exp = /^\d{3}-\d{4}-\d{4}$/;
+            if (memberMobile.match(exp)) {
+                mobileCheckResult.innerHTML = "올바른 휴대전화 형식";
+                mobileCheckResult.style.color = "green";
+            } else {
+                mobileCheckResult.innerHTML = "010-XXXX-XXXX";
+                mobileCheckResult.style.color = "red";
+            }
+        }
     }
 </script>
 </html>
