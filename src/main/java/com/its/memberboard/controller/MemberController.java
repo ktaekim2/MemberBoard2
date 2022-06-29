@@ -36,6 +36,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+        System.out.println("MemberController.login");
         MemberDTO loginResult = memberService.login(memberDTO);
         if (loginResult != null) {
             System.out.println("로그인 성공");
@@ -46,5 +47,11 @@ public class MemberController {
             System.out.println("로그인 실패");
             return "/memberPages/login";
         }
+    }
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        System.out.println("MemberController.logout");
+        return "index";
     }
 }

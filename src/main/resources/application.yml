@@ -13,7 +13,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
       # create: 같은 이름 테이블 드랍하고, 테이블을 새로 만듬
       # create-drop: create와 같지만, 프로젝트가 끝나면 테이블을 drop함
       # update: 테이블 드랍 없음. 컬럼의 내용 변경만 있고 유지할 때(auto_increment 같은 구조적 변경은 안됨)
