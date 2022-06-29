@@ -50,6 +50,7 @@ public class MemberController {
             return "/memberPages/login";
         }
     }
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -71,8 +72,8 @@ public class MemberController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
-    memberService.deleteById(id);
-    return new ResponseEntity<>(HttpStatus.OK);
+        memberService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/main")
@@ -97,4 +98,13 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/duplicate-check")
+    public ResponseEntity duplicateCheck(@RequestParam String memberEmail) {
+        boolean checkResult = memberService.duplicateCheck(memberEmail);
+        if (checkResult) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
     <style>
         input {
             display: block;
@@ -13,12 +16,34 @@
 <th:block th:replace="commonPages/header :: header"></th:block>
 <h2>save.html</h2>
 <form action="/member/save" method="post" enctype="multipart/form-data">
-    <input type="text" name="memberEmail" placeholder="memberEmail">
-    <input type="text" name="memberPassword" placeholder="memberPassword">
-    <input type="text" name="memberName" placeholder="memberName">
-    <input type="text" name="memberMobile" placeholder="memberMobile">
-    <input type="file" name="memberProfile" placeholder="memberProfile">
+    memberEmail<input type="text" name="memberEmail" placeholder="memberEmail" id="memberEmail"
+                      onblur="duplicateCheck()">
+    <p id="checkResult"></p>
+    memberPassword<input type="text" name="memberPassword" placeholder="memberPassword">
+    memberName<input type="text" name="memberName" placeholder="memberName">
+    memberMobile<input type="text" name="memberMobile" placeholder="memberMobile">
+    memberProfile<input type="file" name="memberProfile" placeholder="memberProfile">
     <input type="submit">
 </form>
 </body>
+<script>
+    const duplicateCheck = () => {
+        const memberEmail = document.getElementById("memberEmail").value;
+        const checkResult = document.getElementById("checkResult");
+        $.ajax({
+            type: "post",
+            url: "/member/duplicate-check",
+            data: {memberEmail: memberEmail},
+            dataType: "text",
+            success: function () {
+                checkResult.innerHTML = "사용가능한 아이디";
+                checkResult.style.color = "green";
+            },
+            error: function () {
+                checkResult.innerHTML = "이미 사용중인 아이디";
+                checkResult.style.color = "red";
+            }
+        })
+    }
+</script>
 </html>
