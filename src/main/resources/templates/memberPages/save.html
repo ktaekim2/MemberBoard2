@@ -10,6 +10,7 @@
     </style>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <h2>save.html</h2>
 <form action="/member/save" method="post" enctype="multipart/form-data">
     <input type="text" name="memberEmail" placeholder="memberEmail">
