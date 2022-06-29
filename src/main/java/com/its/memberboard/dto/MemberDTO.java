@@ -30,6 +30,13 @@ public class MemberDTO {
         return memberDTO;
     }
 
+    public MemberDTO(String memberEmail, String memberPassword, String memberName, String memberMobile) {
+        this.memberEmail = memberEmail;
+        this.memberPassword = memberPassword;
+        this.memberName = memberName;
+        this.memberMobile = memberMobile;
+    }
+
     public MemberDTO(String memberEmail, String memberPassword) {
         this.memberEmail = memberEmail;
         this.memberPassword = memberPassword;

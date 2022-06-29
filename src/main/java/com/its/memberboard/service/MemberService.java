@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public void save(MemberDTO memberDTO) throws IOException {
+    public Long save(MemberDTO memberDTO) throws IOException {
         MultipartFile memberProfile = memberDTO.getMemberProfile();
         String memberProfileName = memberProfile.getOriginalFilename();
         memberProfileName = System.currentTimeMillis() + "_" + memberProfileName;
@@ -27,7 +27,8 @@ public class MemberService {
         if (!memberProfile.isEmpty())
             memberProfile.transferTo(new File(savePath));
         memberDTO.setMemberProfileName(memberProfileName);
-        memberRepository.save(MemberEntity.toEntity(memberDTO));
+        Long saveId = memberRepository.save(MemberEntity.toEntity(memberDTO)).getId();
+        return saveId;
     }
 
     public MemberDTO login(MemberDTO memberDTO) {
@@ -52,5 +53,14 @@ public class MemberService {
             memberDTOList.add(MemberDTO.toMemberDTO(m));
         }
         return memberDTOList;
+    }
+
+    public MemberDTO findById(Long saveId) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(saveId);
+        if (optionalMemberEntity.isPresent()) {
+            return MemberDTO.toMemberDTO(optionalMemberEntity.get());
+        } else {
+            return null;
+        }
     }
 }
