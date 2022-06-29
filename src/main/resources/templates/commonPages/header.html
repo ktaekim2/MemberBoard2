@@ -9,6 +9,9 @@
             #header {
                 background-color: gray;
             }
+            a {
+                display: block;
+            }
         </style>
         <!--
         로그인 O
@@ -18,6 +21,7 @@
         -회원가입 링크 보임
         -->
         <div id="header" th:if="${session.loginEmail}">
+            <a href="../" class="nav-link px-2 link-dark"><b>홈</b></a>
             <div th:if="${session.loginEmail.toString().equals('admin')}">
                 <a href="/member/admin" class="nav-link px-2 link-dark"><b>관리자페이지</b></a>
             </div>

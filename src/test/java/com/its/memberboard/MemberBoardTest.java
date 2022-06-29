@@ -49,24 +49,22 @@ public class MemberBoardTest {
         });
     }
 
-    // 파일첨부 부분 주석처리 필요
     @Test
     @DisplayName("회원가입 테스트")
     @Transactional
     @Rollback(value = true)
     public void memberSaveTest() throws IOException {
-        Long saveId = memberService.save(newMember(1));
+        Long saveId = memberService.testSave(newMember(1));
         MemberDTO memberDTO = memberService.findById(saveId);
         assertThat(newMember(1).equals(memberDTO));
     }
 
-    // 파일첨부 부분 주석처리 필요
     @Test
     @DisplayName("로그인 테스트")
     @Transactional
     @Rollback(value = true)
     public void loginTest() throws IOException {
-        memberService.save(newMember(1));
+        memberService.testSave(newMember(1));
         String loginEmail = newMember(1).getMemberEmail();
         String loginPassword = newMember(1).getMemberPassword();
 
@@ -83,9 +81,24 @@ public class MemberBoardTest {
     @Transactional
     @Rollback(value = true)
     public void deleteTest() throws IOException {
-        Long saveId = memberService.save(newMember(999));
+        Long saveId = memberService.testSave(newMember(999));
         memberService.deleteById(saveId);
         assertThat(memberService.findById(saveId)).isNull();
+    }
+
+    @Test
+    @DisplayName("회원 정보수정 테스트")
+    @Transactional
+    @Rollback(value = true)
+    public void memberUpdateTest() throws IOException {
+        Long saveId = memberService.testSave(newMember(888));
+        MemberDTO updateMemberDTO = memberService.findById(saveId);
+        System.out.println("updateMemberDTO = " + updateMemberDTO);
+        updateMemberDTO.setMemberName("암거나");
+        updateMemberDTO.setMemberMobile("흐음");
+        memberService.update(updateMemberDTO);
+        MemberDTO updatedMemberDTO = memberService.findById(saveId);
+        System.out.println("updatedMemberDTO = " + updatedMemberDTO);
     }
 
 }

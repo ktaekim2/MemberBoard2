@@ -1,6 +1,6 @@
 # 서버 포트 설정
 server:
-  port: 8080
+  port: 8081
 
 # DB 접속 정보
 spring:

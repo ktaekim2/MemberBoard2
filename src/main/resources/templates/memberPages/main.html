@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,6 +7,7 @@
 <body>
 <th:block th:replace="commonPages/header :: header"></th:block>
 <h2>main.html</h2>
+<p th:text="${member}"></p>
 <a href="/member/update">내 정보 수정하기</a>
 </body>
 </html>

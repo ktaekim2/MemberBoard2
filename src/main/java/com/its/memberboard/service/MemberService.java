@@ -32,6 +32,11 @@ public class MemberService {
         return saveId;
     }
 
+    public Long testSave(MemberDTO memberDTO) throws IOException {
+        Long saveId = memberRepository.save(MemberEntity.toEntity(memberDTO)).getId();
+        return saveId;
+    }
+
     public MemberDTO login(MemberDTO memberDTO) {
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
         if (optionalMemberEntity.isPresent()) {
@@ -67,5 +72,9 @@ public class MemberService {
 
     public void deleteById(Long id) {
         memberRepository.deleteById(id);
+    }
+
+    public void update(MemberDTO memberDTO) {
+        memberRepository.save(MemberEntity.toEntity(memberDTO));
     }
 }

@@ -43,7 +43,8 @@ public class MemberController {
             System.out.println("로그인 성공");
             session.setAttribute("loginEmail", loginResult.getMemberEmail());
             session.setAttribute("loginId", loginResult.getId());
-            return "redirect:/board/paging";
+//            return "redirect:/board/paging";
+            return "index";
         } else {
             System.out.println("로그인 실패");
             return "/memberPages/login";
@@ -74,15 +75,26 @@ public class MemberController {
     return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @GetMapping("/main")
-    public String main() {
+    public String main(HttpSession session, Model model) {
+        MemberDTO memberDTO = memberService.findById((Long) session.getAttribute("loginId"));
+        model.addAttribute("member", memberDTO);
         return "/memberPages/main";
     }
 
     @GetMapping("/update")
-    public String update() {
+    public String update(Model model, HttpSession session) {
+        MemberDTO memberDTO = memberService.findById((Long) session.getAttribute("loginId"));
+        model.addAttribute("member", memberDTO);
         return "/memberPages/update";
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity update(@RequestBody MemberDTO memberDTO) throws IOException {
+        System.out.println("MemberController.update");
+        System.out.println("memberDTO = " + memberDTO);
+        memberService.update(memberDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

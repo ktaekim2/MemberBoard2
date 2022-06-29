@@ -41,4 +41,5 @@ public class MemberDTO {
         this.memberEmail = memberEmail;
         this.memberPassword = memberPassword;
     }
+
 }
