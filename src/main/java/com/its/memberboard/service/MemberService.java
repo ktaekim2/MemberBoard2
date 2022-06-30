@@ -32,7 +32,7 @@ public class MemberService {
         return saveId;
     }
 
-    public Long testSave(MemberDTO memberDTO) throws IOException {
+    public Long testSave(MemberDTO memberDTO) {
         Long saveId = memberRepository.save(MemberEntity.toEntity(memberDTO)).getId();
         return saveId;
     }

@@ -21,6 +21,12 @@ public class BoardDTO {
     private MultipartFile boardFile;
     private String boardFileName;
 
+    public BoardDTO(String boardTitle, String boardWriter, String boardContents) {
+        this.boardTitle = boardTitle;
+        this.boardWriter = boardWriter;
+        this.boardContents = boardContents;
+    }
+
     public static BoardDTO toDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(boardEntity.getId());

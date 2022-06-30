@@ -26,7 +26,7 @@ public class BoardService {
         List<BoardDTO> boardDTOList = new ArrayList<>();
         for (BoardEntity boardEntity : boardEntityList
         ) {
-        boardDTOList.add(BoardDTO.toDTO(boardEntity));
+            boardDTOList.add(BoardDTO.toDTO(boardEntity));
         }
         return boardDTOList;
     }
@@ -36,15 +36,34 @@ public class BoardService {
         String originalFilename = boardFile.getOriginalFilename();
         originalFilename = System.currentTimeMillis() + "_" + originalFilename;
         String savePath = "D:\\springboot_img\\" + originalFilename;
-        if(!boardFile.isEmpty()) {
+        if (!boardFile.isEmpty()) {
             boardFile.transferTo(new File(savePath));
         }
         boardDTO.setBoardFileName(originalFilename);
 
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(boardDTO.getBoardWriter());
-        if(optionalMemberEntity.isPresent()) {
+        if (optionalMemberEntity.isPresent()) {
             MemberEntity memberEntity = optionalMemberEntity.get();
             boardRepository.save(BoardEntity.toEntity(boardDTO, memberEntity));
         }
+    }
+
+    public Long saveTest(BoardDTO boardDTO) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(boardDTO.getBoardWriter());
+        if (optionalMemberEntity.isPresent()) {
+            MemberEntity memberEntity = optionalMemberEntity.get();
+            Long saveId = boardRepository.save(BoardEntity.toEntity(boardDTO, memberEntity)).getId();
+            return saveId;
+        }
+        return null;
+    }
+
+    public BoardDTO findById(Long saveId) {
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(saveId);
+        if(optionalBoardEntity.isPresent()) {
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            return BoardDTO.toDTO(boardEntity);
+        }
+        return null;
     }
 }

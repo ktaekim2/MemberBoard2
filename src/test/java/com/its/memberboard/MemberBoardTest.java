@@ -1,8 +1,11 @@
 package com.its.memberboard;
 
+import com.its.memberboard.dto.BoardDTO;
 import com.its.memberboard.dto.MemberDTO;
 import com.its.memberboard.entity.MemberEntity;
+import com.its.memberboard.repository.BoardRepository;
 import com.its.memberboard.repository.MemberRepository;
+import com.its.memberboard.service.BoardService;
 import com.its.memberboard.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +25,10 @@ public class MemberBoardTest {
     private MemberService memberService;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private BoardService boardService;
+    @Autowired
+    private BoardRepository boardRepository;
 
     public MemberDTO newMember(int i) {
         MemberDTO memberDTO = new MemberDTO("test-email" + i, "test-pw" + i, "test-name" + i, "test-phone" + i);
@@ -53,7 +60,7 @@ public class MemberBoardTest {
     @DisplayName("회원가입 테스트")
     @Transactional
     @Rollback(value = true)
-    public void memberSaveTest() throws IOException {
+    public void memberSaveTest() {
         Long saveId = memberService.testSave(newMember(1));
         MemberDTO memberDTO = memberService.findById(saveId);
         assertThat(newMember(1).equals(memberDTO));
@@ -63,7 +70,7 @@ public class MemberBoardTest {
     @DisplayName("로그인 테스트")
     @Transactional
     @Rollback(value = true)
-    public void loginTest() throws IOException {
+    public void loginTest() {
         memberService.testSave(newMember(1));
         String loginEmail = newMember(1).getMemberEmail();
         String loginPassword = newMember(1).getMemberPassword();
@@ -90,7 +97,7 @@ public class MemberBoardTest {
     @DisplayName("회원 정보수정 테스트")
     @Transactional
     @Rollback(value = true)
-    public void memberUpdateTest() throws IOException {
+    public void memberUpdateTest() {
         Long saveId = memberService.testSave(newMember(888));
         MemberDTO updateMemberDTO = memberService.findById(saveId);
         System.out.println("updateMemberDTO = " + updateMemberDTO);
@@ -101,6 +108,31 @@ public class MemberBoardTest {
         System.out.println("updatedMemberDTO = " + updatedMemberDTO);
     }
 
+    public BoardDTO newBoard(int i) {
+        BoardDTO boardDTO = new BoardDTO("test-title" + i, "test-email" + i, "test-contents" + i);
+        return boardDTO;
+    }
+    @Test
+    @DisplayName("게시글 저장 테스트")
+    @Transactional
+    @Rollback(value = true)
+    public void boardSaveTest() {
+        memberService.testSave(newMember(777));
+        Long saveId = boardService.saveTest(newBoard(777));
+        BoardDTO boardDTO = boardService.findById(saveId);
+        assertThat(newMember(777).equals(boardDTO));
+    }
+
+    @Test
+    @DisplayName("회원-게시글 연관관계 저장 테스트")
+    @Transactional
+    @Rollback(value = true)
+    public void memberBoardSaveTest() {
+        memberService.testSave(newMember(123));
+        Long boardId = boardService.saveTest(newBoard(123));
+        BoardDTO boardDTO = boardService.findById(boardId);
+        assertThat(newMember(123).getMemberEmail().equals(boardDTO.getBoardWriter()));
+    }
 
 
 }
