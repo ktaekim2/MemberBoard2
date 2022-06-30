@@ -101,4 +101,6 @@ public class MemberBoardTest {
         System.out.println("updatedMemberDTO = " + updatedMemberDTO);
     }
 
+
+
 }

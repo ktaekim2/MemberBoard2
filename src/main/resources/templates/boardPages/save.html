@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<h2>save.html</h2>
+<form action="/board/save" method="post" enctype="multipart/form-data">
+    boardWriter<input type="text" name="boardWriter" th:value="${session.loginEmail}" readonly>
+    boardTitle<input type="text" name="boardTitle">
+    boardContents<input type="text" name="boardContents">
+    boardFile<input type="file" name="boardFile">
+    <input type="submit">
+</form>
+</body>
+</html>

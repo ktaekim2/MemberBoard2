@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <th:block th:replace="commonPages/header :: header"></th:block>
-<h2>index.html</h2>
-<a href="/member/save-form">회원가입</a>
-<a href="/member/login-form">로그인</a>
-<a href="/board/">글목록</a>
+<h2>paging.html</h2>
+<a th:if="${session.loginEmail}" href="/board/save-form">글작성</a>
 </body>
 </html>

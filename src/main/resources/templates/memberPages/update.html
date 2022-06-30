@@ -13,6 +13,7 @@
     </style>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <h2>update.html</h2>
 memberEmail<input type="text" name="memberEmail" th:value="${member.memberEmail}" readonly>
 memberPassword<input type="text" name="memberPassword" id="memberPassword">
