@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <style>
+        input {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h2>update.html</h2>
+<input type="hidden" name="id" th:value="${board.id}" readonly>
+작성자<input type="text" name="boardWriter" th:value="${board.boardWriter}" readonly>
+제목<input type="text" name="boardTitle" th:value="${board.boardTitle}" id="boardTitle">
+내용<textarea name="boardContents" th:value="${board.boardContents}" id="boardContents" style="display: block"></textarea>
+<input type="button" value="수정" onclick="update()">
+</body>
+<script th:inline="javascript">
+    const update = () => {
+        const id = [[${board.id}]];
+        const boardTitle = document.getElementById("boardTitle").value;
+        const boardWriter = [[${board.boardWriter}]];
+        const boardContents = document.getElementById("boardContents").value;
+        const boardHits = [[${board.boardHits}]];
+        const boardCreatedDate = [[${board.boardCreatedDate}]];
+        const boardFileName = [[${board.boardFileName}]];
+
+        const updateData = JSON.stringify({
+            id: id,
+            boardTitle: boardTitle,
+            boardWriter: boardWriter,
+            boardContents: boardContents,
+            boardHits: boardHits,
+            boardCreatedDate: boardCreatedDate,
+            boardFileName: boardFileName,
+        });
+        $.ajax({
+            type: "put",
+            data: updateData,
+            contentType: "application/json",
+            url: "/board/update/" + id,
+            success: function () {
+                location.href = "/board/" + id;
+            },
+            error: function () {
+                alert("실패")
+            }
+        })
+    }
+</script>
+</html>

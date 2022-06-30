@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <h2>detail.html</h2>
-
+<p th:text="${board}"></p>
+<div th:if="${session.loginEmail == board.boardWriter}">
+    <button onclick="req(1)">글수정</button>
+    <button onclick="req(2)">글삭제</button>
+</div>
 </body>
+<script th:inline="javascript">
+    const boardId = [[${board.id}]];
+    const req = (num) => {
+        if (num == "1") {
+            location.href = "/board/update-form/" + boardId;
+        } else {
+            location.href = "/board/delete/" + boardId;
+        }
+    }
+</script>
 </html>

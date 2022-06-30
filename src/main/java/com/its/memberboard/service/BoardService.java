@@ -100,4 +100,12 @@ public class BoardService {
                 ));
         return boardList;
     }
+
+    public void update(BoardDTO boardDTO) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(boardDTO.getBoardWriter());
+        if (optionalMemberEntity.isPresent()) {
+            MemberEntity memberEntity = optionalMemberEntity.get();
+            boardRepository.save(BoardEntity.toUpdateEntity(boardDTO, memberEntity));
+        }
+    }
 }

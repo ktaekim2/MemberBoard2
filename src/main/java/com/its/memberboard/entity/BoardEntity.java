@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,6 +30,9 @@ public class BoardEntity extends BaseEntity{
     private int boardHits;
 
     @Column
+    private LocalDateTime boardCreatedDate;
+
+    @Column
     private String boardFileName;
 
     //회원(1)-게시글(n) 연관관계
@@ -43,6 +47,19 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardWriter(memberEntity.getMemberEmail()); //회원 이메일을 작성자로 한다면
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0); //초깃값 0
+        boardEntity.setBoardFileName(boardDTO.getBoardFileName());
+        boardEntity.setMemberEntity(memberEntity); //entity전체가 아닌, member_id값만 테이블에 들어감
+        return boardEntity;
+    }
+
+    public static BoardEntity toUpdateEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setId(boardDTO.getId());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(boardDTO.getBoardHits());
+        boardEntity.setBoardCreatedDate(boardDTO.getBoardCreatedDate());
         boardEntity.setBoardFileName(boardDTO.getBoardFileName());
         boardEntity.setMemberEntity(memberEntity); //entity전체가 아닌, member_id값만 테이블에 들어감
         return boardEntity;

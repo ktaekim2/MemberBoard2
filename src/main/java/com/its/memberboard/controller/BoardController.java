@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,20 @@ public class BoardController {
     public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         boardService.save(boardDTO);
         return "redirect:/board/";
+    }
+
+    @GetMapping("/update-form/{id}")
+    public String updateForm(@PathVariable Long id, Model model) {
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("board", boardDTO);
+        return "/boardPages/update";
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity update(@RequestBody BoardDTO boardDTO) {
+        System.out.println("boardDTO = " + boardDTO);
+        boardService.update(boardDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
