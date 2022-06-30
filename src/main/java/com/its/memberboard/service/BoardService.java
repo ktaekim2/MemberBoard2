@@ -112,4 +112,21 @@ public class BoardService {
     public void deleteById(Long id) {
         boardRepository.deleteById(id);
     }
+
+    @Transactional
+    public Page<BoardDTO> search(String searchType, String q, Pageable pageable) {
+        int page = pageable.getPageNumber();
+        page = (page == 1) ? 0 : (page - 1); // 삼항연산자
+        Page<BoardEntity> boardEntities = boardRepository.search(q, PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+
+        Page<BoardDTO> boardList = boardEntities.map(
+                board -> new BoardDTO(board.getId(),
+                        board.getBoardTitle(),
+                        board.getBoardWriter(),
+                        board.getBoardHits(),
+                        board.getBoardCreatedDate()
+                ));
+        System.out.println("boardList = " + boardList);
+        return boardList;
+    }
 }
