@@ -65,5 +65,11 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteById(@PathVariable Long id) {
+        boardService.deleteById(id);
+        return "redirect:/board/";
+    }
+
 
 }

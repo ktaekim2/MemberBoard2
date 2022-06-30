@@ -108,4 +108,8 @@ public class BoardService {
             boardRepository.save(BoardEntity.toUpdateEntity(boardDTO, memberEntity));
         }
     }
+
+    public void deleteById(Long id) {
+        boardRepository.deleteById(id);
+    }
 }

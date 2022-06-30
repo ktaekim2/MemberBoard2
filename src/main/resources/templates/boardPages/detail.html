@@ -10,6 +10,8 @@
 <p th:text="${board}"></p>
 <div th:if="${session.loginEmail == board.boardWriter}">
     <button onclick="req(1)">글수정</button>
+</div>
+<div th:if="${session.loginEmail == board.boardWriter or session.loginEmail == 'admin'}">
     <button onclick="req(2)">글삭제</button>
 </div>
 </body>
