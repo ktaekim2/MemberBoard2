@@ -18,7 +18,7 @@ public class MemberEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false, unique = true)
     private String memberEmail;
 
     @Column(length = 30, nullable = false)
@@ -27,7 +27,7 @@ public class MemberEntity {
     @Column(length = 30)
     private String memberName;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private String memberMobile;
 
     @Column
