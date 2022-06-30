@@ -189,4 +189,32 @@ public class MemberBoardTest {
             System.out.println("boardEntity.getMemberEntity().getMemberName() = " + boardEntity.getMemberEntity().getMemberName());
         }
     }
+
+    @Test
+    @DisplayName("게시글 수정 테스트")
+    @Transactional
+    @Rollback(value = true)
+    public void memberBoardUpdateTest() {
+        memberService.testSave(newMember(333));
+        Long boardId = boardService.saveTest(newBoard(333));
+        BoardDTO boardDTO = boardService.findById(boardId);
+        System.out.println("boardDTO = " + boardDTO);
+        boardDTO.setBoardTitle("수정제목");
+        boardDTO.setBoardContents("수정내용");
+        boardService.update(boardDTO);
+        BoardDTO updatedBoardDTO = boardService.findById(boardId);
+        System.out.println("updatedBoardDTO = " + updatedBoardDTO);
+        assertThat(!boardDTO.equals(updatedBoardDTO));
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 테스트")
+    @Transactional
+    @Rollback(value = true)
+    public void memberBoardDeleteTest() {
+        memberService.testSave(newMember(444));
+        Long boardId = boardService.saveTest(newBoard(444));
+        boardService.deleteById(boardId);
+        assertThat(boardService.findById(boardId) == null);
+    }
 }
