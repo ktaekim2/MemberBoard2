@@ -78,21 +78,11 @@ public class BoardService {
     }
 
     public Page<BoardDTO> paging(Pageable pageable) {
-        int page = pageable.getPageNumber(); // 요청 페이지값 가져옴
-        // 요청한 페이지가 1이면 페이지값을 0으로 하고 1이 아니면 요청 페이지에서 1을 뺀다.
-//        page = page - 1;
-        page = (page == 1) ? 0 : (page - 1); // 삼항연산자
-        // 매서드 오버로딩? 오버라이딩?
-        // PageRequest: 매서드 오버로딩
+        int page = pageable.getPageNumber();
+        page = (page == 1) ? 0 : (page - 1);
         Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
-        // "id" 부분은 카멜케이스로 써야함.
-        // Page<BoardEntity> => Page<BoardDTO>
-        // map: page객체가 제공하는 변환 메서드, 자동으로 옮겨담아줌
         Page<BoardDTO> boardList = boardEntities.map(
-                // BoardEntity 객체 -> BoardDTO 객체 변환
-                // board: BoardEntity 객체
-                // new BoardDTO() 생성자 호출
-                board -> new BoardDTO(board.getId(), // 화살표 함수는 변수(board)만 써줘도 인식 됨
+                board -> new BoardDTO(board.getId(),
                         board.getBoardTitle(),
                         board.getBoardWriter(),
                         board.getBoardHits(),
@@ -107,6 +97,8 @@ public class BoardService {
         if (optionalMemberEntity.isPresent()) {
             MemberEntity memberEntity = optionalMemberEntity.get();
             boardRepository.save(BoardEntity.toUpdateEntity(boardDTO, memberEntity));
+            System.out.println("BoardService.update");
+            System.out.println("memberEntity = " + memberEntity);
         }
     }
 
