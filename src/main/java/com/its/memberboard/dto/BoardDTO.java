@@ -17,7 +17,8 @@ public class BoardDTO {
     private String boardWriter;
     private String boardContents;
     private int boardHits;
-    private LocalDateTime boardCreatedDate;
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
     private MultipartFile boardFile;
     private String boardFileName;
 
@@ -27,15 +28,28 @@ public class BoardDTO {
         this.boardContents = boardContents;
     }
 
-    public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits, LocalDateTime boardCreatedDate) {
+    public BoardDTO(Long id, String boardTitle, String boardWriter, String boardContents) {
+        this.id = id;
+        this.boardTitle = boardTitle;
+        this.boardWriter = boardWriter;
+        this.boardContents = boardContents;
+    }
+
+    public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits) {
         this.id = id;
         this.boardTitle = boardTitle;
         this.boardWriter = boardWriter;
         this.boardHits = boardHits;
-        this.boardCreatedDate = boardCreatedDate;
     }
 
-
+    public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits, LocalDateTime createdTime, LocalDateTime updatedTime) {
+        this.id = id;
+        this.boardTitle = boardTitle;
+        this.boardWriter = boardWriter;
+        this.boardHits = boardHits;
+        this.createdTime = createdTime;
+        this.updatedTime = updatedTime;
+    }
 
     public static BoardDTO toDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
@@ -44,7 +58,8 @@ public class BoardDTO {
         boardDTO.setBoardWriter(boardEntity.getBoardWriter());
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
-        boardDTO.setBoardCreatedDate(boardEntity.getBoardCreatedDate());
+        boardDTO.setCreatedTime(boardEntity.getCreatedTime());
+        boardDTO.setUpdatedTime(boardEntity.getUpdatedTime());
         boardDTO.setBoardFileName(boardEntity.getBoardFileName());
         return boardDTO;
     }

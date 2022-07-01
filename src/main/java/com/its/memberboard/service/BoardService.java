@@ -96,7 +96,8 @@ public class BoardService {
                         board.getBoardTitle(),
                         board.getBoardWriter(),
                         board.getBoardHits(),
-                        board.getBoardCreatedDate()
+                        board.getCreatedTime(),
+                        board.getUpdatedTime()
                 ));
         return boardList;
     }
@@ -114,17 +115,34 @@ public class BoardService {
     }
 
     @Transactional
-    public Page<BoardDTO> search(String searchType, String q, Pageable pageable) {
+    public Page<BoardDTO> searchTitle(String q, Pageable pageable) {
         int page = pageable.getPageNumber();
-        page = (page == 1) ? 0 : (page - 1); // 삼항연산자
-        Page<BoardEntity> boardEntities = boardRepository.search(q, PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
-
+        page = (page == 1) ? 0 : (page - 1);
+        Page<BoardEntity> boardEntities = boardRepository.searchTitle(q, PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
         Page<BoardDTO> boardList = boardEntities.map(
                 board -> new BoardDTO(board.getId(),
                         board.getBoardTitle(),
                         board.getBoardWriter(),
                         board.getBoardHits(),
-                        board.getBoardCreatedDate()
+                        board.getCreatedTime(),
+                        board.getUpdatedTime()
+                ));
+        System.out.println("boardList = " + boardList);
+        return boardList;
+    }
+
+    @Transactional
+    public Page<BoardDTO> searchWriter(String q, Pageable pageable) {
+        int page = pageable.getPageNumber();
+        page = (page == 1) ? 0 : (page - 1);
+        Page<BoardEntity> boardEntities = boardRepository.searchWriter(q, PageRequest.of(page, PagingConst.PAGE_LIMIT, Sort.by(Sort.Direction.DESC, "id")));
+        Page<BoardDTO> boardList = boardEntities.map(
+                board -> new BoardDTO(board.getId(),
+                        board.getBoardTitle(),
+                        board.getBoardWriter(),
+                        board.getBoardHits(),
+                        board.getCreatedTime(),
+                        board.getUpdatedTime()
                 ));
         System.out.println("boardList = " + boardList);
         return boardList;

@@ -27,7 +27,7 @@
         const boardWriter = [[${board.boardWriter}]];
         const boardContents = document.getElementById("boardContents").value;
         const boardHits = [[${board.boardHits}]];
-        const boardCreatedDate = [[${board.boardCreatedDate}]];
+        const createdTime = [[${board.createdTime}]];
         const boardFileName = [[${board.boardFileName}]];
 
         const updateData = JSON.stringify({
@@ -36,7 +36,7 @@
             boardWriter: boardWriter,
             boardContents: boardContents,
             boardHits: boardHits,
-            boardCreatedDate: boardCreatedDate,
+            createdTime: createdTime,
             boardFileName: boardFileName,
         });
         $.ajax({

@@ -17,5 +17,8 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 //    Page<BoardEntity> search(String searchType, String q, Pageable pageable);
 
     @Query(value = "select b from BoardEntity b where b.boardTitle like %:q%")
-    Page<BoardEntity> search(String q, Pageable pageable);
+    Page<BoardEntity> searchTitle(String q, Pageable pageable);
+
+    @Query(value = "select b from BoardEntity b where b.boardWriter like %:q%")
+    Page<BoardEntity> searchWriter(String q, Pageable pageable);
 }

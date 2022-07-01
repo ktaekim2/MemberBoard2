@@ -2,7 +2,9 @@ package com.its.memberboard.controller;
 
 import com.its.memberboard.common.PagingConst;
 import com.its.memberboard.dto.BoardDTO;
+import com.its.memberboard.dto.CommentDTO;
 import com.its.memberboard.service.BoardService;
+import com.its.memberboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
-    @GetMapping("/")
+    @GetMapping
     public String paging(@PageableDefault(page = 1) Pageable pageable, Model model) {
         System.out.println("BoardController.paging");
         Page<BoardDTO> boardList = boardService.paging(pageable);
@@ -39,6 +42,8 @@ public class BoardController {
     public String detail(@PathVariable Long id, Model model) {
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
         return "/boardPages/detail";
     }
 
@@ -50,7 +55,7 @@ public class BoardController {
     @PostMapping("/save")
     public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         boardService.save(boardDTO);
-        return "redirect:/board/";
+        return "redirect:/board";
     }
 
     @GetMapping("/update-form/{id}")
@@ -70,19 +75,28 @@ public class BoardController {
     @GetMapping("/delete/{id}")
     public String deleteById(@PathVariable Long id) {
         boardService.deleteById(id);
-        return "redirect:/board/";
+        return "redirect:/board";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam("searchType") String searchType, @RequestParam("q") String q, Model model, @PageableDefault(page = 1) Pageable pageable) {
-        System.out.println("BoardController.search");
-        Page<BoardDTO> boardList = boardService.search(searchType, q, pageable);
-        model.addAttribute("boardList", boardList);
-        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
-        int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < boardList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : boardList.getTotalPages();
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        return "boardPages/paging";
+        if (searchType == "boardTitle") {
+            Page<BoardDTO> boardList = boardService.searchTitle(q, pageable);
+            model.addAttribute("boardList", boardList);
+            int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+            int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < boardList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : boardList.getTotalPages();
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "boardPages/paging";
+        }
+        else {
+            Page<BoardDTO> boardList = boardService.searchWriter(q, pageable);
+            model.addAttribute("boardList", boardList);
+            int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+            int endPage = ((startPage + PagingConst.BLOCK_LIMIT - 1) < boardList.getTotalPages()) ? startPage + PagingConst.BLOCK_LIMIT - 1 : boardList.getTotalPages();
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "boardPages/paging";
+        }
     }
-
 }

@@ -54,11 +54,7 @@ public class MemberBoardTest {
     @DisplayName("회원 저장")
     public void memberSave() {
         IntStream.rangeClosed(1, 20).forEach(i -> {
-            try {
-                memberService.save(newMember(i));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            memberService.testSave(newMember(i));
         });
     }
 
@@ -135,7 +131,8 @@ public class MemberBoardTest {
                         board.getBoardTitle(),
                         board.getBoardWriter(),
                         board.getBoardHits(),
-                        board.getBoardCreatedDate()
+                        board.getCreatedTime(),
+                        board.getUpdatedTime()
                 ));
 
         System.out.println("boardList.getContent() = " + boardList.getContent()); // 요청페이지에 들어있는 데이터
@@ -152,6 +149,19 @@ public class MemberBoardTest {
     public BoardDTO newBoard(int i) {
         BoardDTO boardDTO = new BoardDTO("test-title" + i, "test-email" + i, "test-contents" + i);
         return boardDTO;
+    }
+
+    public BoardDTO newBoard2(int i) {
+        BoardDTO boardDTO = new BoardDTO(1L, "test-title" + i, "admin" + i, "test-contents" + i);
+        return boardDTO;
+    }
+
+    @Test
+    @DisplayName("게시글 저장")
+    public void boardSave() {
+        IntStream.rangeClosed(1, 20).forEach(i -> {
+            boardService.saveTest(newBoard(i));
+        });
     }
 
     @Test

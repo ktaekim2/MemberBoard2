@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,9 +31,6 @@ public class BoardEntity extends BaseEntity{
     private int boardHits;
 
     @Column
-    private LocalDateTime boardCreatedDate;
-
-    @Column
     private String boardFileName;
 
     //회원(1)-게시글(n) 연관관계
@@ -40,6 +38,9 @@ public class BoardEntity extends BaseEntity{
     // FetchType: LAZY(필요할 때 호출한 시점에 가져옴), EAGER(게시글 조회할 때 댓글 목록을 쓰던 말던 같이 가져옴, 불필요한 정보를 가져옴)
     @JoinColumn(name = "member_id")
     private MemberEntity memberEntity;
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     public static BoardEntity toEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
         BoardEntity boardEntity = new BoardEntity();
@@ -59,7 +60,6 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(boardDTO.getBoardHits());
-        boardEntity.setBoardCreatedDate(boardDTO.getBoardCreatedDate());
         boardEntity.setBoardFileName(boardDTO.getBoardFileName());
         boardEntity.setMemberEntity(memberEntity); //entity전체가 아닌, member_id값만 테이블에 들어감
         return boardEntity;
