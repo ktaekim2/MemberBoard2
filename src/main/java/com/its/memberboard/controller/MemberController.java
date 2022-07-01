@@ -43,8 +43,7 @@ public class MemberController {
             System.out.println("로그인 성공");
             session.setAttribute("loginEmail", loginResult.getMemberEmail());
             session.setAttribute("loginId", loginResult.getId());
-//            return "redirect:/board/paging";
-            return "index";
+            return "redirect:/board";
         } else {
             System.out.println("로그인 실패");
             return "/memberPages/login";
@@ -83,8 +82,8 @@ public class MemberController {
         return "/memberPages/main";
     }
 
-    @GetMapping("/update")
-    public String update(Model model, HttpSession session) {
+    @GetMapping("/update-form")
+    public String updateForm(Model model, HttpSession session) {
         MemberDTO memberDTO = memberService.findById((Long) session.getAttribute("loginId"));
         model.addAttribute("member", memberDTO);
         return "/memberPages/update";

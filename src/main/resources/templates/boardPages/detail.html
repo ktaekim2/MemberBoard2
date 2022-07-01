@@ -35,20 +35,39 @@
                 <th>작성자</th>
                 <th>내용</th>
                 <th>작성시간</th>
+<!--                <th>좋아요</th>-->
+<!--                <th>싫어요</th>-->
+<!--                <th>수정</th>-->
+<!--                <th>삭제</th>-->
             </tr>
             <tr th:each="comment: ${commentList}">
                 <td th:text="${comment.id}"></td>
                 <td th:text="${comment.commentWriter}"></td>
                 <td th:text="${comment.commentContents}"></td>
                 <td th:text="${comment.createdTime}"></td>
+
+<!--                <td>-->
+<!--                    <button class="btn-group"><img src="../../static/img/hand-thumbs-up.svg"-->
+<!--                                                   th:href="/comment/updateLikes(${comment.id})">-->
+<!--                    </button>-->
+<!--                    <span th:value="${comment.commentLikes}"></span>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <button class="btn-group"><img-->
+<!--                            src="../../static/img/hand-thumbs-down.svg"-->
+<!--                            th:href="/comment/updateLikes(${comment.id})">-->
+<!--                    </button>-->
+<!--                    <span th:value="${comment.commentDislikes}"></span>-->
+<!--                <td><button type="button" class="btn-outline" th:onclick="commentUpdate(${comment.id})">수정</button></td>-->
+<!--                <td><button type="button" class="btn-outline" th:onclick="commentDelete(${comment.commentWriter}, ${comment.id})">삭제</button></td>-->
             </tr>
         </table>
     </div>
 </div>
 </body>
 <script th:inline="javascript">
-    const boardId = [[${board.id}]];
     const req = (num) => {
+        const boardId = [[${board.id}]];
         if (num == "1") {
             location.href = "/board/update-form/" + boardId;
         } else {
@@ -56,46 +75,32 @@
         }
     }
 
-    // $("#comment-write-btn").click(function () {
-    //     const commentWriter = document.getElementById("commentWriter").value;
-    //     const commentContents = $("#commentContents").val();
-    //     const boardId = [[${board.id}]];
-    //     const memberEmail = [[${session.loginEmail}]];
-    //     console.log(commentWriter, commentContents, boardId);
-    //     $.ajax({
-    //         type: "post",
-    //         url: "/comment/save",
-    //         data: {
-    //             "commentWriter": commentWriter,
-    //             "commentContents": commentContents,
-    //             "boardId": boardId,
-    //             "memberEmail": memberEmail
-    //         },
-    //         dataType: "json",
-    //         success: function (result) {
-    //             console.log(result);
-    //             let output = "<table class='table'>";
-    //             output += "<tr><th>댓글번호</th>";
-    //             output += "<th>작성자</th>";
-    //             output += "<th>내용</th>";
-    //             output += "<th>작성시간</th></tr>";
-    //             for (let i in result) {
-    //                 "<tr th:each='comment: \" + result[i] + "'>";
-    //                     <td th:text="${comment.id}"></td>;
-    //                     <td th:text="${comment.commentWriter}"></td>;
-    //                     <td th:text="${comment.commentContents}"></td>;
-    //                     <td th:text="${comment.createdTime}"></td>;
-    //                 </tr>
-    //             }
-    //             output += "</table>";
-    //             document.getElementById('comment-list').innerHTML = output;
-    //             document.getElementById('commentWriter').value = '';
-    //             document.getElementById('commentContents').value = '';
-    //         },
-    //         error: function () {
-    //             alert("어디가 틀렸을까");
-    //         }
-    //     })
-    // });
+    // // 댓글 수정
+    // function commentUpdate(id) {
+    //     console.log("함수호출");
+    //     console.log(commentWriter);
+    //     console.log(id);
+    //     console.log('${sessionScope.loginMemberId}');
+    //     const loginMemberId = '${sessionScope.loginMemberId}';
+    //     if (loginMemberId === commentWriter) {
+    //         location.href = '/comment/update?boardId=${board.id}&id=' + id;
+    //     } else {
+    //         alert("댓글 작성자가 아닙니다.")
+    //     }
+    // }
+    //
+    // // 댓글 삭제
+    // function commentDelete(commentWriter, id) {
+    //     console.log("함수호출");
+    //     console.log(commentWriter);
+    //     console.log(id);
+    //     console.log('${sessionScope.loginMemberId}');
+    //     const loginMemberId = '${sessionScope.loginMemberId}';
+    //     if (loginMemberId === commentWriter) {
+    //         location.href = '/comment/delete?boardId=${board.id}&id=' + id;
+    //     } else {
+    //         alert("댓글 작성자가 아닙니다.")
+    //     }
+    // }
 </script>
 </html>

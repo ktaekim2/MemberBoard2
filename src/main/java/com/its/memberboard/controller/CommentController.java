@@ -21,4 +21,10 @@ public class CommentController {
         return "redirect:/board/" + boardId;
     }
 
+//    @PostMapping("/updateLikes/{id}")
+//    public String updateLikes(@PathVariable Long id) {
+//        commentService.updateLikes(id);
+//        return "redirect:/board";
+//    }
+
 }

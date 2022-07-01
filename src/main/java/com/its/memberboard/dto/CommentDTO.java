@@ -19,6 +19,8 @@ public class CommentDTO {
     private Long memberId;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
+//    private Long commentLikes;
+//    private Long commentDislikes;
 
     public static CommentDTO toDTO(CommentEntity commentEntity) {
         CommentDTO commentDTO = new CommentDTO();
