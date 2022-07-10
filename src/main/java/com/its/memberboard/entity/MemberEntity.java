@@ -44,7 +44,7 @@ public class MemberEntity {
 //    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 //    private List<BoardEntity> boardEntityList = new ArrayList<>();
 //
-//    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "memberEntity", cascade = feCascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 //    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     // on delete set null (회원 아이디만 탈퇴시키고, 게시글은 남음, 게시글의 회원 아이디부분이 null 이뜨게)
